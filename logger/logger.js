@@ -32,6 +32,9 @@
 //   transports: [new transports.Console()]
 // })
 
+// For JEST Tests
+// require('dotenv').config();
+
 // Third Example
 
 require('winston-daily-rotate-file');
@@ -75,7 +78,7 @@ const logger = createLogger({
       }
     ),
     new transports.MongoDB({
-      level: "error",
+      level: "warn",
       db: process.env.MONGODB_URI,
       collection: "server_logs",
       format: format.combine(

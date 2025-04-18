@@ -6,6 +6,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(
     () => {
       console.log("Connection to MongoDB established");
+
       app.listen(port, () => {
         console.log("Server is up");
       });
