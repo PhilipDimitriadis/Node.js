@@ -42,7 +42,50 @@ describe("Requests for /api/users", () => {
     expect(res.body.status).toBeTruthy();
     expect(res.body.data.length).toBeGreaterThan(0);
   }, 50000);
+
+  it('POST Creates a user', async () => {
+    const res = await request(app)
+      .post('/api/users')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        'username': 'test5',
+        'password': '12345',
+        'name': 'test5 name',
+        'surname': 'test5 surname',
+        'email': 'test5@aueb.gr',
+        'address': {
+          'area': 'area1',
+          'road': 'road5'
+        }
+      })
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBeTruthy();
+  }, 50000);
+
+  it('POST Creates a user that exists', async () => {
+    const res = await request(app)
+      .post('/api/users')
+      .set('Authorization', `Beare ${token}`)
+      .send({
+        'username': 'test5',
+        'password': '12345',
+        'name': 'new name',
+        'surname': 'new surname',
+        'email': 'new@aueb.gr',
+        'address': {
+          'area': 'xxxx',
+          'road': 'yyyy'
+        }
+
+      })
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.status).not.toBeTruthy();
+  })
 });
+
+
 
 describe("Requests for /api/users/:username", () => {
   let token;
@@ -58,7 +101,7 @@ describe("Requests for /api/users/:username", () => {
 
   it('GET Returns specific user', async () => {
     const result = await userService.findLastInsertedUser();
-    console.log("RESULT>>> ", result);
+    // console.log("RESULT>>> ", result);
 
     const res = await request(app)
       .get('/api/users/' + result.username)

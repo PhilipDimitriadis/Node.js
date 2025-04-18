@@ -3,7 +3,7 @@ const { OAuth2Client } = require('google-auth-library');
 
 function generateAccessToken(user) {
 
-  console.log("Auth Service", user);
+  // console.log("Auth Service", user);
 
   const payload = {
     username: user.username,
@@ -31,7 +31,7 @@ function verifyAccessToken(token) {
 }
 
 async function googleAuth(code) {
-  console.log("Google Login", code);
+  // console.log("Google Login", code);
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
   const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
   const REDIRECT_URI = process.env.REDIRECT_URI;

@@ -15,7 +15,7 @@ async function findLastInsertedUser() {
 
   try {
     const result = await User.find().sort({ _id: -1 }).limit(1);
-    console.log("Successfully found user", result[0].username);
+    console.log("Successfully found user");
     return result[0];
   } catch (err) {
     console.log("Problem finding the last inserted user", err);
