@@ -43,7 +43,7 @@ describe("Requests for /api/users", () => {
     expect(res.body.data.length).toBeGreaterThan(0);
   }, 50000);
 
-  it('POST Creates a user', async () => {
+  it("POST Creates a user", async () => {
     const res = await request(app)
       .post('/api/users')
       .set('Authorization', `Bearer ${token}`)
@@ -57,16 +57,16 @@ describe("Requests for /api/users", () => {
           'area': 'area1',
           'road': 'road5'
         }
-      })
+      });
 
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBeTruthy();
-  }, 50000);
+  }, 50000)
 
-  it('POST Creates a user that exists', async () => {
+  it('POST Creates a user that exists with the same username', async () => {
     const res = await request(app)
       .post('/api/users')
-      .set('Authorization', `Beare ${token}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({
         'username': 'test5',
         'password': '12345',
@@ -77,15 +77,53 @@ describe("Requests for /api/users", () => {
           'area': 'xxxx',
           'road': 'yyyy'
         }
-
       })
 
     expect(res.statusCode).toBe(400);
     expect(res.body.status).not.toBeTruthy();
   })
+
+  it("POST Creates a user with the same email", async () => {
+    const res = await request(app)
+      .post('/api/users')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        username: "test6",
+        password: "12345",
+        name: "name test6",
+        surname: "surname test6",
+        email: "test5@aueb.gr",
+        address: {
+          area: "area23",
+          road: "road23"
+        }
+      })
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.status).not.toBeTruthy();
+  })
+
+  it("POST Creates a user with empty name, surname, password", async () => {
+    const res = await request(app)
+      .post('/api/users')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        username: "test6",
+        password: "",
+        name: "",
+        surname: "",
+        email: "test6@aueb.gr",
+        address: {
+          area: "area23",
+          road: "road23"
+        }
+      });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.status).not.toBeTruthy();
+  })
+
 });
-
-
 
 describe("Requests for /api/users/:username", () => {
   let token;
