@@ -36,7 +36,9 @@ exports.googleLogin = async (req, res) => {
     let user = await authService.googleAuth(code);
     if (user) {
       console.log(">>>>", user);
-      res.status(200).json({ status: true, data: user });
+      // res.status(200).json({ status: true, data: user });
+      const frontednRedirectUrl = `http://localhost:4200/login?token=${user}`;
+      return res.redirect(frontednRedirectUrl);
     } else {
       res.status(400).json({ status: false, data: "Problem in Google Login" });
     }
